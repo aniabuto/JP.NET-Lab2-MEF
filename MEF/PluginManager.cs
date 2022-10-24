@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.IO;
+using Calculator;
+using MEF;
 
-namespace ConsoleApp1;
 
 public class PluginManager
 {
@@ -21,7 +24,8 @@ public class PluginManager
             
         compositionBatch.AddPart(this);
 
-        aggregateCatalog.Catalogs.Add(new DirectoryCatalog(System.Environment.CurrentDirectory));
+        string path = new DirectoryInfo(".").FullName + "\\Plugins";
+        aggregateCatalog.Catalogs.Add(new DirectoryCatalog(path));
             
         compositionContainer.Compose(compositionBatch);
     }

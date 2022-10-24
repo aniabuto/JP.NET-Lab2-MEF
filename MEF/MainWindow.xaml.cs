@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.Composition;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Calculator;
 
 namespace MEF
 {
@@ -20,9 +11,28 @@ namespace MEF
     /// </summary>
     public partial class MainWindow : Window
     {
+        [ImportMany(typeof(ICalculator))]
+        private List<ICalculator> calculators = new List<ICalculator>();
+        
+        public List<ICalculator> Calculators
+        {
+            get { return calculators; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            
+            var pluginManager = new PluginManager();
+
+            Console.WriteLine("Number of Calculators: {0}", pluginManager.Calculators.Count);
+            pluginManager.SetUpPluginManager();
+            Console.WriteLine("Number of loaded Calculators: {0}", pluginManager.Calculators.Count);
+            
+        }
+        private void Calculate(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
