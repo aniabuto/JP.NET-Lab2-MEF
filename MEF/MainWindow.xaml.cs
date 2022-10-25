@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using Calculator;
@@ -52,29 +53,19 @@ namespace MEF
 
         private void RefeshTabs()
         {
-            // List<string> toDo = pluginManager.Calculators.Select(plugin => plugin.GetName()).ToList();
-            List<string> toDo = Tabs.Items.Cast<TabItem>().Select(plugin => plugin.Header.ToString()).ToList();
-
-            foreach (var plugin in pluginManager.Calculators )
-            {
-                if (!toDo.Remove(plugin.GetName()))
+            Dispatcher.BeginInvoke(
+                new ThreadStart(() =>
                 {
-                    TabItem pluginItem = new TabItem();
-                    pluginItem.Header = plugin.GetName();
-                    pluginItem.Content = new Calc();
-                    var calculator = ((Calc) (pluginItem.Content));
-                    calculator.CalculateButton.Click += CalculateSolution;
-                    Tabs.Items.Add(pluginItem);
-                }
-            }
+                    Tabs.Items.Clear();
+                    foreach (var plugin in pluginManager.Calculators)
+                    {
+                        TabItem pluginItem = new TabItem();
+                        pluginItem.Header = plugin.GetName();
+                        pluginItem.Content = new Calc(plugin);
 
-            foreach (var name in toDo)
-            {
-                // var leftoverProcess = Tabs.Items.First<TabItem>(process => process.Header.ToString().Equals(name));
-                var leftoverProcess = Tabs.Items.OfType<TabItem>()
-                    .SingleOrDefault(ti => ti.Header.ToString().Equals(name));
-                Tabs.Items.Remove(leftoverProcess);
-            }
+                        Tabs.Items.Add(pluginItem);
+                    }
+                }));
         }
     }
 }

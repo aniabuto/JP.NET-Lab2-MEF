@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using Calculator;
@@ -10,11 +11,12 @@ using MEF;
 
 public class PluginManager
 {
-    [ImportMany(typeof(ICalculator))]
+    [ImportMany(typeof(ICalculator), AllowRecomposition = true)]
     private List<ICalculator> calculators = new List<ICalculator>();
         
-    string path = new DirectoryInfo(".").FullName + "\\Plugins";
+    string path = ConfigurationManager.AppSettings["path"].ToString() + "/Plugins";
     private AggregateCatalog aggregateCatalog;
+    private FileSystemWatcher watcher;
     
     public List<ICalculator> Calculators
     {
@@ -24,6 +26,7 @@ public class PluginManager
     public PluginManager()
     {
         aggregateCatalog = new AggregateCatalog();
+        this.watcher = new FileSystemWatcher(path);
     }
 
     public void SetUpPluginManager()
@@ -32,8 +35,6 @@ public class PluginManager
         var compositionBatch = new CompositionBatch();
             
         compositionBatch.AddPart(this);
-        
-        using var watcher = new FileSystemWatcher(path);
         
         watcher.NotifyFilter = NotifyFilters.Attributes
                                | NotifyFilters.CreationTime
@@ -44,10 +45,12 @@ public class PluginManager
                                | NotifyFilters.Security
                                | NotifyFilters.Size;
         
-        watcher.Changed += OnFilesUpdate;
+        //watcher.Changed += OnFilesUpdate;
         watcher.Created += OnFilesUpdate;
         watcher.Deleted += OnFilesUpdate;
-        watcher.Renamed += OnFilesUpdate;
+        //watcher.Renamed += OnFilesUpdate;
+        
+        watcher.Filter = "*.dll";
         watcher.EnableRaisingEvents = true;
         
         
