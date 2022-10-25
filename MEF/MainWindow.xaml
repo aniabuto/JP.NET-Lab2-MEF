@@ -21,15 +21,20 @@
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="5"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
         <Label Grid.Column="1">a:</Label>
         <Label Grid.Column="3">operator:</Label>
         <Label Grid.Column="5">b:</Label>
         
-        <TextBox Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
-        <TextBox Grid.Row="1" Grid.Column="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
-        <TextBox Grid.Row="1" Grid.Column="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox Name="AText" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox Name="OpText" Grid.Row="1" Grid.Column="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox Name="BText" Grid.Row="1" Grid.Column="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
         
         <Button Grid.Row="3" Grid.Column="3" Click="Calculate">Calculate</Button>
+
+        <Label Grid.Row="5" Grid.Column="3">Solution:</Label>
+        <Label Name="Solution" Grid.Row="5" Grid.Column="5"></Label>
     </Grid>
 </Window>

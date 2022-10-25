@@ -32,7 +32,7 @@ namespace MEF
         }
         private void Calculate(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Solution.Text = 
         }
     }
 }
