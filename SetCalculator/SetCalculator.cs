@@ -6,6 +6,13 @@ namespace SetCalculator;
 [Export(typeof(ICalculator))]
 public class SetCalculator : ICalculator
 {
+    private string name = "Set Calculator";
+
+    public string GetName()
+    {
+        return name;
+        
+    }
     public string Calculate(string operandA, string op, string operandB)
     {
         char oper = op[0];
@@ -27,7 +34,7 @@ public class SetCalculator : ICalculator
                 break;
         }
 
-        return solution.ToString();
+        return WriteSet(solution);
     }
 
     private double[] FindSetElements(string set)
@@ -69,5 +76,18 @@ public class SetCalculator : ICalculator
         }
 
         return solution.ToArray();
+    }
+
+    private string WriteSet(double[] set)
+    {
+        string stringSet = "";
+        for (int i = 0; i < set.Length; i++)
+        {
+            stringSet += set[i];
+            if (i < set.Length - 1)
+                stringSet += ", ";
+        }
+
+        return stringSet;
     }
 }

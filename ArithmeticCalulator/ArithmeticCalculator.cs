@@ -8,6 +8,14 @@ namespace ArithmeticCalulator;
 [Export(typeof(ICalculator))]
 public class ArithmeticCalculator : ICalculator
 {
+    private string name = "Arithmetic Calculator";
+
+    public string GetName()
+    {
+        return name;
+        
+    }
+ 
     public string Calculate(string operandA, string op, string operandB)
     {
         char oper = op[0];
@@ -23,6 +31,15 @@ public class ArithmeticCalculator : ICalculator
                 break;
             case '+':
                 solution = a + b;
+                break;
+            case '-':
+                solution = a - b;
+                break;
+            case '/':
+                solution = a / b;
+                break;
+            case '%':
+                solution = a % b;
                 break;
             default:
                 solution = null;

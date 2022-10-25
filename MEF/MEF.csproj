@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Calculator\Calculator.csproj" />
+      <ProjectReference Include="..\WpfControlLibrary2\WpfControlLibrary2.csproj" />
     </ItemGroup>
 
 </Project>
